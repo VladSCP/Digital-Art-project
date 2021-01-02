@@ -1,0 +1,1 @@
+Prototype of the triangle shape editor
