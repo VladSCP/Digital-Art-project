@@ -12,6 +12,6 @@ https://www.python.org/downloads/release/python-386/
 make sure that in the optional features, also get "pip" and "td/tk and IDLE"
 
 the install the packages by running these commands in the Command Prompt:
-pip3.8 install numpy
-pip3.8 install shapely
-pip3.8 install pillow
+# pip3.8 install numpy
+# pip3.8 install shapely
+# pip3.8 install pillow
