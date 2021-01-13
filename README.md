@@ -13,5 +13,5 @@ make sure that in the optional features, also get "pip" and "td/tk and IDLE"
 
 the install the packages by running these commands in the Command Prompt:
 <p>pip3.8 install numpy</p>
-pip3.8 install shapel
-pip3.8 install pillow
+<p>pip3.8 install shapel</p>
+<p>pip3.8 install pillow</p>
