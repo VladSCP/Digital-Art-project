@@ -1,7 +1,7 @@
 """
 third official prototype of the project
 new features: 
-* colours are no longer randomly generated, now there are patterns
+- colours are no longer randomly generated, now there are patterns
 the previous way to store colours is still here, but is now called "free draw"
 - function that generates random colours has been updated to include every colour possible
 - a new combobox to select colour patterns
