@@ -11,7 +11,11 @@ https://www.python.org/downloads/release/python-386/
 
 make sure that in the optional features, also get "pip" and "td/tk and IDLE"
 
+# outdated --
 the install the packages by running these commands in the Command Prompt:
 <p>pip3.8 install numpy</p>
 <p>pip3.8 install shapel</p>
 <p>pip3.8 install pillow</p>
+# --
+
+- from Prototype4 and above, just run "setup_packages.py"
