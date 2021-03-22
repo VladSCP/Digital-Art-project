@@ -6,3 +6,4 @@
 - renamed "free draw" pattern to "unique"
 - now, no matter what versions of python you have installed, the project will always use 3.8.6
 - the project now auto-installs the needed packages if they are not installed
+- with this ^, "setup_packages.py" has been removed
