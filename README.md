@@ -1,7 +1,7 @@
 # Digital-Art-project
 The page were the files for the digital Art project will be stored for backup
 
-to run the project you will need python version 3.8.5
+to run the project you will need python version 3.8.6
 
 and the following python packages:
 tkinter, numpy, shapely and PIL
