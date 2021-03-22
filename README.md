@@ -19,7 +19,7 @@ the install the packages by running these commands in the Command Prompt:
 # --
 
 # outdated --
-- from Prototype4 and above, just run "setup_packages.py"
+- for Prototype4, just run "setup_packages.py"
 #
 
 as of Prototype5, all needed packages will be auto-installed before the project opens
