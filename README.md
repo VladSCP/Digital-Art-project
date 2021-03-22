@@ -18,4 +18,8 @@ the install the packages by running these commands in the Command Prompt:
 <p>pip3.8 install pillow</p>
 # --
 
+# outdated --
 - from Prototype4 and above, just run "setup_packages.py"
+#
+
+as of Prototype5, all needed packages will be auto-installed before the project opens
