@@ -13,9 +13,9 @@ import subprocess
 import sys
 
 #### make sure the needed packages are installed before running anything ## 
-#subprocess.check_call([sys.executable, "-m", "pip", "install", 'numpy'])
-#subprocess.check_call([sys.executable, "-m", "pip", "install", 'shapely'])
-#subprocess.check_call([sys.executable, "-m", "pip", "install", 'pillow'])
+subprocess.check_call([sys.executable, "-m", "pip", "install", 'numpy'])
+subprocess.check_call([sys.executable, "-m", "pip", "install", 'shapely'])
+subprocess.check_call([sys.executable, "-m", "pip", "install", 'pillow'])
 ###########################################################################
 
 from tkinter import *
