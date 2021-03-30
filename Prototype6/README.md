@@ -1,0 +1,13 @@
+# forth prototype realse
+- added the "help" submenu
+- user can give feedback by going to help->feedback (actually by going to feedback.html)
+- added a small description of the project in the "help" submenu (about)
+- added the "how to" for a help on how to use the tools but has no function at the moment
+- step 2 has been implemented (note: at the moment it does not paint more tiles at once)
+- for step 2: added the pencil, bursh, stamp and eraser
+- note: for eraser: release the mouse to erase and hold for not erasing (this is a glitch from tkinter)
+- for step 2: added 16 fixed colours and 8 slots for custom colours
+- for step 2: added 2 brush styles: square or circle
+- for step 2: added the option to change brush size
+- added the option to highlight the main shape and is avaialable in both steps
+- the limitation of the max lines and columns has been removed
