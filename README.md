@@ -11,6 +11,8 @@ https://www.python.org/downloads/release/python-386/
 
 make sure that in the optional features, also get "pip" and "td/tk and IDLE"
 
+To run the project, just download "Cheesellation" folder and run "Cheesellation.py"
+
 # outdated --
 the install the packages by running these commands in the Command Prompt:
 <p>pip3.8 install numpy</p>
