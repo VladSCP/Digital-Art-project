@@ -6,3 +6,5 @@
 - fixed the glitch with the eraser and tis functionality has been greatly improved
 - colours slots for step 2 design has been updated
 - the tools now paint and erase according to the tiles colour pattern ids and their rotations
+- fixed a big glitch woth zooming, where it zooms only the dots of the current tessellation mode
+- due to its functionallity, 'zooming' has been renamed 'tiles size' on the display
