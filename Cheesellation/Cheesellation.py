@@ -7,6 +7,8 @@ Official release of the Cheesellation:
 - fixed the glitch with the eraser and tis functionality has been greatly improved
 - colours slots for step 2 design has been updated
 - the tools now paint and erase according to the tiles colour pattern ids and their rotations
+- fixed a big glitch woth zooming, where it zooms only the dots of the current tessellation mode
+- due to its functionallity, 'zooming' has been renamed 'tiles size' on the display
 """
 
 #!/usr/bin/env python3.8.6
@@ -289,7 +291,9 @@ def _dot(X,Y,index,piece_id):
     canvas.tag_bind(id,'<B1-Motion>', lambda f: _circle_pressed(id,piece_id))
     canvas.tag_bind(id,'<Button-1>',  lambda f: _circle_pressed(id,piece_id))
     polygon_pieces[piece_id].insert(index, id)
-    dots_data.update( {shape_orientation : polygon_pieces} )
+    if main_shape not in ["H_hexagon","V_hexagon"]: dots_data.update( {shape_orientation : polygon_pieces} )
+    elif main_shape == "H_hexagon": dots_data.update( {(shape_orientation + ' H') : polygon_pieces} )
+    elif main_shape == "V_hexagon": dots_data.update( {(shape_orientation + ' V') : polygon_pieces} )
 
 # make new colours for the current colour pattern by erasing all ids of the current pattern
 def _new_pattern_colours():
@@ -579,26 +583,24 @@ def _erase_Tessellation():
 
 # scale the canvas
 def _scale(value):
-    global size, zoom, polygon_pieces
+    global size, zoom, dots_data
     d_zoom = int(float(value)) - zoom
-    polygon_pieces_copy = polygon_pieces.copy()
     zoom = int(float(value))
     
     if d_zoom > 0: size = size * ((d_zoom * 0.01) + 1)
     elif d_zoom < 0: size = size / ((d_zoom * -0.01) + 1)
-    
+   
     _make_Tessellation()
     _update_all()
-    if len(polygon_pieces) == len(polygon_pieces_copy):
-        polygon_pieces = polygon_pieces_copy.copy()
-        for i in range(len(polygon_pieces)):
-            for circle in polygon_pieces[i]:
+    for data in dots_data:
+        for i in range(len(dots_data[data])):
+            for circle in dots_data[data][i]:
                 curr_pos = canvas.coords(circle)
                 new_pos = _scale_dot(curr_pos[0],curr_pos[1],    offset[0],offset[1],    ((d_zoom * 0.01) + 1))
                 new_pos = [new_pos[0] - curr_pos[0], new_pos[1] - curr_pos[1]]
                 canvas.move(circle, new_pos[0], new_pos[1])
-        _make_Tessellation()
-        _update_polygon()
+            _make_Tessellation()
+            _update_polygon()
 
 # reset dots limits list
 def _reset_limit_list():
@@ -812,7 +814,7 @@ def _set_max_columns(event):
 # (note: is always active when the mouse is on screen)
 def motion(event):
     global mouse_x, mouse_y
-    mouse_pos_label.config(text="mouse position: [{}, {}]".format(event.x, event.y))
+    mouse_pos_label.config(text="Mouse position: [{}, {}]".format(event.x, event.y))
     mouse_x, mouse_y = event.x, event.y
 
 # save the image as png (or jpg)
@@ -895,10 +897,11 @@ def about():
     messagebox.showinfo('About', 'Welcome to the Cheesellation, a project made in tkinter with the purpose to create Tessellations.\n\
     Which are drawings and tilings similar to the images painted by M.C. Escher (you should check him out, he is a good artist)\n\n\
     the project has 2 steps, in the first one you will generate the tiles and the second part is for painting them\n\
-    Many tools are provided to make the work efficient, you can have fun by trying all of them :)\n\
+    Many tools are provided to make the work efficient, you can have fun by trying all of them :)\n\n\
     In the first step, you will edit the shape by adding and moving pink dots around the canvas\n\
-    (similar to vector graphics editing, but pretty close)\n\
-    In the second step, you will paint the tiles according to their colour pattern to make them look funny or interesting\n\
+    Note: Use the "Toggle Tessellation preview" button to see how it will look like\n\
+    (similar to vector graphics editing, but pretty close)\n\n\
+    In the second step, you will paint the tiles according to their colour pattern to make them look funny or interesting\n\n\
     Once you are done, just go to "File"->"Save as PNG/JPG" and your masterpiece will be ready!\n\n\
     Hope you are gonna have fun with this interactive project! :)')
 def give_feedback(): 
@@ -1065,10 +1068,10 @@ img12 = PhotoImage(file="assets/mouse_R.png")
 pallete_R.create_image(2, 2, image=img12, anchor=NW)
 tooltip_ballon.bind_widget(pallete_R, balloonmsg="Pick the colour for right mouse button")
 
-outline_label1 = Label(tool_canvas, text="outline colour:", bg="#ffb375", relief=RIDGE, bd=0)
+outline_label1 = Label(tool_canvas, text="Outline colour:", bg="#ffb375", relief=RIDGE, bd=0)
 outline_label1.place(x=370,y=2)
 
-outline_label2 = Label(tool_canvas, text="outline size:", bg="#ffb375", relief=RIDGE, bd=0)
+outline_label2 = Label(tool_canvas, text="Outline size:", bg="#ffb375", relief=RIDGE, bd=0)
 outline_label2.place(x=370,y=23)
 
 outline_scale = Spinbox(tool_canvas, values=[0,1,2,3,4,5,6], width=1, state='readonly', command=_outline_scale)
@@ -1080,7 +1083,7 @@ pallete_outline.bind('<Button-1>', colour_outline)
 pallete_outline.place(x=470,y=7)
 tooltip_ballon.bind_widget(pallete_outline, balloonmsg="Change the colour of the outline")
 
-pattern_label = Label(tool_canvas, text="colour pattern:", bg="#ffb375", relief=RIDGE, bd=0)
+pattern_label = Label(tool_canvas, text="Colour pattern:", bg="#ffb375", relief=RIDGE, bd=0)
 pattern_label.place(x=520,y=2)
 
 pattern_combobox = ttk.Combobox(tool_canvas, width = 15, state = 'readonly')
@@ -1093,13 +1096,13 @@ tooltip_ballon.bind_widget(pattern_combobox, balloonmsg="Change colour pattern\n
 
 ## others ##
 
-mouse_pos_label = Label(root, text="mouse position: [x,y]", relief=RIDGE, bd=0)
+mouse_pos_label = Label(root, text="Mouse position: [x,y]", relief=RIDGE, bd=0)
 mouse_pos_label.place(x=350,y=745)
 
-shape_label = Label(root, text="selected shape: {}".format(main_shape), relief=RIDGE, bd=0)
+shape_label = Label(root, text="Selected shape: {}".format(main_shape), relief=RIDGE, bd=0)
 shape_label.place(x=350,y=720)
 
-max_lines_label = Label(root, text="max lines:", relief=RIDGE, bd=0)
+max_lines_label = Label(root, text="Max lines:", relief=RIDGE, bd=0)
 max_lines_label.place(x=625,y=720)
 
 max_lines_combobox = ttk.Combobox(root, width = 2, state = 'readonly')
@@ -1109,7 +1112,7 @@ max_lines_combobox.bind("<<ComboboxSelected>>", _set_max_lines)
 max_lines_combobox['values'] = [17,15,13,11,9,7,5]
 tooltip_ballon.bind_widget(max_lines_combobox, balloonmsg="Change the max number of lines to display")
 
-max_columns_label = Label(root, text="max columns:", relief=RIDGE, bd=0)
+max_columns_label = Label(root, text="Max columns:", relief=RIDGE, bd=0)
 max_columns_label.place(x=600,y=750)
 
 max_columns_combobox = ttk.Combobox(root, width = 2, state = 'readonly')
@@ -1119,27 +1122,27 @@ max_columns_combobox.bind("<<ComboboxSelected>>", _set_max_columns)
 max_columns_combobox['values'] = [41,39,37,35,33,31,29,27,25,23,21,19,17,15,13,11,9,7,5]
 tooltip_ballon.bind_widget(max_columns_combobox, balloonmsg="Change the max number of columns to display")
 
-dots_visibility_button = Button(root, text="show/hide dots" ,bd=2, bg="white", width=15, height=1, command = _toggle_vis_circles)
+dots_visibility_button = Button(root, text="Show/Hide dots" ,bd=2, bg="white", width=15, height=1, command = _toggle_vis_circles)
 dots_visibility_button.place(x=15, y=720)
 tooltip_ballon.bind_widget(dots_visibility_button, balloonmsg="Toggle dots visibility")
 
-new_colours_button = Button(root, text="re-colour" ,bd=2, bg="white", width=10, height=1, command = _new_pattern_colours)
+new_colours_button = Button(root, text="Re-colour" ,bd=2, bg="white", width=10, height=1, command = _new_pattern_colours)
 new_colours_button.place(x=150, y=720)
 tooltip_ballon.bind_widget(new_colours_button, balloonmsg="Give current colour pattern new random colours")
 
-zoom_lable = Label(root, text="Zoom:", relief=RIDGE, bd=0)
+zoom_lable = Label(root, text="Tiles size:", relief=RIDGE, bd=0)
 zoom_lable.place(x=15, y=765)
 
 zoom_scale = Scale(root, orient=HORIZONTAL, from_=10, to=170, length=200, command = _scale)
 zoom_scale.set(zoom)
-zoom_scale.place(x=70, y=765)
-tooltip_ballon.bind_widget(zoom_scale, balloonmsg="Zoom in/out")
+zoom_scale.place(x=90, y=765)
+tooltip_ballon.bind_widget(zoom_scale, balloonmsg="Change the size of the tiles and shape\nIs similar to zooming, but not exactly")
 
-main_shape_highl_check = Checkbutton(root, text='highlight main shape', command = _toggle_shape_highlight)
+main_shape_highl_check = Checkbutton(root, text='Highlight main shape', command = _toggle_shape_highlight)
 main_shape_highl_check.place(x=350,y=770,height=20)
 tooltip_ballon.bind_widget(main_shape_highl_check, balloonmsg="Highlight the main shape")
 
-next_step_button = Button(root, text="go to step 2 >>" ,bd=2, bg="white", width=15, height=1, command = move_to_step2)
+next_step_button = Button(root, text="Go to step 2 >>" ,bd=2, bg="white", width=15, height=1, command = move_to_step2)
 next_step_button.place(x=1140, y=760)
 tooltip_ballon.bind_widget(next_step_button, balloonmsg="Move to second step when you are ready")
 
