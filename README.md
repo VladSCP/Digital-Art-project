@@ -1,27 +1,11 @@
-# Digital-Art-project
-The page were the files for the digital Art project will be stored for backup
+# Cheesellation
+Cheesellation is a small software made with Tkinter in Python that generates tessellations by picking a main shape and tiling it around the screen like a puzzle
+
+# How to install
 
 to run the project you will need python version 3.8.6
+which can be downloaded from here: https://www.python.org/downloads/release/python-386/
+note: make sure that in the optional features, also get "pip" and "td/tk and IDLE"
 
-and the following python packages:
-tkinter, numpy, shapely and PIL
+Then, just download "Cheesellation" folder and run "Cheesellation.py"
 
-First install python 3.8.6 from here: (note: the files may not work correctly on other versions)
-https://www.python.org/downloads/release/python-386/
-
-make sure that in the optional features, also get "pip" and "td/tk and IDLE"
-
-To run the project, just download "Cheesellation" folder and run "Cheesellation.py"
-
-# outdated --
-the install the packages by running these commands in the Command Prompt:
-<p>pip3.8 install numpy</p>
-<p>pip3.8 install shapel</p>
-<p>pip3.8 install pillow</p>
-# --
-
-# outdated --
-- for Prototype4, just run "setup_packages.py"
-#
-
-as of Prototype5, all needed packages will be auto-installed before the project opens
